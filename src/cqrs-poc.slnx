@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/app/">
+    <Project Path="app/CqrsPoc.App.csproj" />
+  </Folder>
+  <Folder Name="/read-api/">
+    <Project Path="read-api/CqrsPoc.ReadApi.csproj" />
+  </Folder>
+  <Folder Name="/write-api/">
+    <Project Path="write-api/CqrsPoc.WriteApi.csproj" />
+  </Folder>
+</Solution>
