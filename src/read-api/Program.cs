@@ -1,8 +1,7 @@
+using CqrsPoc.App;
+using CqrsPoc.App.Repositories;
+using CqrsPoc.Infra;
 using CqrsPoc.ReadApi;
-using CqrsPoc.ReadApi.App;
-using CqrsPoc.ReadApi.App.Repositories;
-using CqrsPoc.ReadApi.Infra.Repositories;
-using Microsoft.OpenApi;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
 
@@ -11,29 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-
-ConventionRegistry.Register("SnakeCase", new ConventionPack
-{
-    new CamelCaseElementNameConvention()
-}, t => true);
-
-builder.Services.AddScoped(sp =>
-{
-    var config = sp.GetRequiredService<IConfiguration>();
-    var connstr = config.GetConnectionString("MongoDB");
-
-    return new MongoClient(connstr);
-});
-
-builder.Services.AddScoped(sp =>
-{
-    return sp.GetRequiredService<MongoClient>()
-        .GetDatabase("library");
-});
-
-builder.Services.AddScoped<IBookReadRepository, BookReadRepository>();
-
-builder.Services.AddScoped<IBookConsumer, BookConsumer>();
+builder.Services.RegisterInfraDependencies();
 
 var app = builder.Build();
 

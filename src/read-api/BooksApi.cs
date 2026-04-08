@@ -1,4 +1,4 @@
-using CqrsPoc.ReadApi.App.Repositories;
+using CqrsPoc.App.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CqrsPoc.ReadApi;

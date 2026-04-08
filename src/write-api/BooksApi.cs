@@ -1,8 +1,5 @@
-using CqrsPoc.App.Events;
-using CqrsPoc.WriteApi.App;
-using CqrsPoc.WriteApi.Domain;
-using CqrsPoc.WriteApi.Domain.Repositories;
-using CqrsPoc.WriteApi.Domain.Services;
+using CqrsPoc.App;
+using CqrsPoc.App.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CqrsPoc.WriteApi;
@@ -12,34 +9,14 @@ public static class BooksApi
     public static void MapBooksApi(this RouteGroupBuilder builder)
     {
         builder.MapPost("/books", async (
-            [FromBody] ProductDto data,
-            BookService service,
-            IBookCategoryRepository categoryRepository,
-            IBookProducer producer,
+            [FromBody] BookDto data,
+            IMediator mediator,
             CancellationToken ct
         ) =>
         {
-            var category = await categoryRepository.FindAsync(data.CategoryId, ct);
+            var response = await mediator.Handle(data, ct);
 
-            if (category is null)
-                return Results.BadRequest(new { message = "Category not found." });
-
-            var book = new Book(data.Name, category);
-            await service.CreateAsync(book, ct);
-
-            var ev = new BookCreated
-            {
-                Id = book.Id,
-                Name = book.Name,
-                Authors = ["Gabriel Alonso"],
-                CreatedAt = DateTime.UtcNow
-            };
-
-            await producer.SendAsync(ev, ct);
-
-            return Results.Ok(new { productId = book.Id });
+            return Results.Ok(response);
         });
     }
 }
-
-public record ProductDto(int Id, string Name, int CategoryId);

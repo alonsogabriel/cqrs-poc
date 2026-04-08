@@ -2,6 +2,12 @@
   <Folder Name="/app/">
     <Project Path="app/CqrsPoc.App.csproj" />
   </Folder>
+  <Folder Name="/domain/">
+    <Project Path="domain/CqrsPoc.Domain.csproj" />
+  </Folder>
+  <Folder Name="/infra/">
+    <Project Path="infra/CqrsPoc.Infra.csproj" />
+  </Folder>
   <Folder Name="/read-api/">
     <Project Path="read-api/CqrsPoc.ReadApi.csproj" />
   </Folder>
